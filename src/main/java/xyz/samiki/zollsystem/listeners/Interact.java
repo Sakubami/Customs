@@ -23,11 +23,11 @@ public class Interact implements Listener {
             Location loc = e.getClickedBlock().getLocation();
             Material mat = e.getClickedBlock().getType();
 
-            if (mat.equals(Material.SEA_LANTERN)) {
+            if (mat.equals(Material.TARGET)) {
                 if ((e.getAction().equals(Action.RIGHT_CLICK_BLOCK))) {
                     for(int i = 0; i < ConfigHelper.loadLocations().size(); i++) {
                         if (loc.equals(ConfigHelper.getLoc(String.valueOf(i)))) {
-                            Inventorys.getConfirmation();
+                            p.openInventory(Inventorys.getConfirmation());
                             break;
                         }
                     }

@@ -8,8 +8,8 @@ public class Inventorys {
 
     public static Inventory getConfirmation() {
         Inventory inv = InventoryController.inventoryPrepare(36,"§4Kostenpflichtig §cPassieren?");
-        inv.setItem(11, ItemController.getItem(Material.PAPER,"§aJa"));
-        inv.setItem(15, ItemController.getItem(Material.PAPER,"§cNein"));
+        inv.setItem(11, ItemController.getItem(Material.LIME_WOOL,"§aJa"));
+        inv.setItem(15, ItemController.getItem(Material.RED_WOOL,"§cNein"));
         return inv;
     }
 }
