@@ -1,0 +1,10 @@
+xyz\samiki\zollsystem\listeners\InventoryClick.class
+xyz\samiki\zollsystem\ZollSystem.class
+xyz\samiki\zollsystem\Inventorys\InventoryController.class
+xyz\samiki\zollsystem\ConfigHelper.class
+xyz\samiki\zollsystem\controllers\PlaceController.class
+xyz\samiki\zollsystem\controllers\ChatController.class
+xyz\samiki\zollsystem\Inventorys\Inventorys.class
+xyz\samiki\zollsystem\listeners\Interact.class
+xyz\samiki\zollsystem\commands\ZollCommand.class
+xyz\samiki\zollsystem\controllers\ItemController.class

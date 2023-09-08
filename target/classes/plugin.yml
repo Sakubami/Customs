@@ -1,0 +1,9 @@
+name: Zollsystem
+main: xyz.samiki.zollsystem.ZollSystem
+version: 1.0
+api-version: 1.18
+
+commands:
+  zoll:
+    description: does customs stuff
+    aliases: np
