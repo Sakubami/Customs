@@ -2,6 +2,7 @@ package xyz.samiki.zollsystem;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -21,7 +22,8 @@ public class ConfigHelper {
 
                 config.set("stations."+i+".id", String.valueOf(i));
                 config.set("stations."+i+".location", fixLocation(loc,p));
-                config.set("stations."+i+".direction", p.getFacing());
+                config.set("stations."+i+".direction", p.getFacing().toString());
+                config.set("stations."+i+".status", false);
 
                 try {
                     config.save(new File(path1));
@@ -48,6 +50,27 @@ public class ConfigHelper {
         }
     }
 
+    public static void setStatus(Location loc, Player p, boolean status ) {
+        FileConfiguration config = YamlConfiguration.loadConfiguration(new File(path1));
+        for(int i = 0; true; i++) {
+            if(config.contains("stations."+i)) {
+                if (config.getString("stations."+i+".location").equalsIgnoreCase(loc.getBlockX() + "/" + loc.getBlockY() + "/" + loc.getBlockZ() + "/" + loc.getWorld().getName())) {
+
+                    if (status) {
+                        config.set("stations."+i+".status", "CLICKED-" + p.getUniqueId());
+                    } else {
+                        config.set("stations."+i+".status", false);
+                    }
+
+                    try {
+                        config.save(new File(path1));
+                    } catch (Exception ignored) {}
+                    return;
+                }
+            }
+        }
+    }
+
     public static ArrayList<String> loadLocations() {
         ArrayList<String> list = new ArrayList<>();
         FileConfiguration config = YamlConfiguration.loadConfiguration(new File(path1));
@@ -59,14 +82,15 @@ public class ConfigHelper {
             String name = config.getString("stations."+i+".id");
             String location = config.getString("stations."+i+".location");
             String dir = config.getString("stations."+i+".direction");
-            String line = name+"§"+location+"§"+dir;
+            String status = config.getString("stations."+i+".status");
+            String line = name+"%"+location+"%"+dir+"%"+status;
             list.add(line);
         }
     }
 
     public static boolean checkLocations(Location loc, Player p) {
         for(String list : loadLocations()) {
-            String[] str = list.split("§");
+            String[] str = list.split("%");
             if (str[1].equalsIgnoreCase(fixLocation(loc,p))) {
                 return true;
             }
@@ -74,10 +98,21 @@ public class ConfigHelper {
         return false;
     }
 
-    public static BlockFace getDirection(Location loc, Player p) {
+    public static Location getLocByStatus(Player p) {
         for(String list : loadLocations()) {
-            String[] str = list.split("§");
-            if (str[1].equalsIgnoreCase(fixLocation(loc,p))) {
+            String[] str = list.split("%");
+            if (str[3].contains("CLICKED-" + p.getUniqueId())) {
+                String[] parts = str[1].split("/");
+                return new Location(Bukkit.getServer().getWorld(parts[3]), Integer.parseInt(parts[0]), Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
+            }
+        }
+        return null;
+    }
+
+    public static BlockFace getDirection(Player p) {
+        for(String list : loadLocations()) {
+            String[] str = list.split("%");
+            if (str[3].equalsIgnoreCase("CLICKED-" + p.getUniqueId())) {
                 return BlockFace.valueOf(str[2]);
             }
         }
@@ -86,7 +121,7 @@ public class ConfigHelper {
 
     public static Location getLoc(String id) {
         for(String list : loadLocations()) {
-            String[] str = list.split("§");
+            String[] str = list.split("%");
             if (str[0].equalsIgnoreCase(id)) {
                 String[] parts = str[1].split("/");
                 return new Location(Bukkit.getServer().getWorld(parts[3]), Integer.parseInt(parts[0]), Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
