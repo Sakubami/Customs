@@ -21,14 +21,10 @@ public class PlaceController {
         int y = loc.getBlockY();
         int z = loc.getBlockZ();
 
-        if (!ConfigHelper.checkLocations(fixLocation(loc,p))) {
+        if (!ConfigHelper.checkLocations(loc,p)) {
             ConfigHelper.addLocation(loc,p);
 
             if (f == BlockFace.NORTH) {
-                wrld.getBlockAt(x-1,y-1,z-1).setType(Material.SMOOTH_QUARTZ);
-                wrld.getBlockAt(x-1,y,z-1).setType(Material.CHEST);
-                wrld.getBlockAt(x-1,y+1,z-1).setType(Material.WHITE_STAINED_GLASS);
-
                 wrld.getBlockAt(x,y,z-1).setType(Material.QUARTZ_BRICKS);
                 wrld.getBlockAt(x,y+1,z-1).setType(Material.TARGET);
 
@@ -42,10 +38,6 @@ public class PlaceController {
             }
 
             if (f == BlockFace.EAST) {
-                wrld.getBlockAt(x+1,y-1,z-1).setType(Material.SMOOTH_QUARTZ);
-                wrld.getBlockAt(x+1,y,z-1).setType(Material.CHEST);
-                wrld.getBlockAt(x+1,y+1,z-1).setType(Material.WHITE_STAINED_GLASS);
-
                 wrld.getBlockAt(x+1,y,z).setType(Material.QUARTZ_BRICKS);
                 wrld.getBlockAt(x+1,y+1,z).setType(Material.TARGET);
 
@@ -59,10 +51,6 @@ public class PlaceController {
             }
 
             if (f == BlockFace.SOUTH) {
-                wrld.getBlockAt(x+1,y-1,z+1).setType(Material.SMOOTH_QUARTZ);
-                wrld.getBlockAt(x+1,y,z+1).setType(Material.CHEST);
-                wrld.getBlockAt(x+1,y+1,z+1).setType(Material.WHITE_STAINED_GLASS);
-
                 wrld.getBlockAt(x,y,z+1).setType(Material.QUARTZ_BRICKS);
                 wrld.getBlockAt(x,y+1,z+1).setType(Material.TARGET);
 
@@ -76,10 +64,6 @@ public class PlaceController {
             }
 
             if (f == BlockFace.WEST) {
-                wrld.getBlockAt(x-1,y-1,z+1).setType(Material.SMOOTH_QUARTZ);
-                wrld.getBlockAt(x-1,y,z+1).setType(Material.CHEST);
-                wrld.getBlockAt(x-1,y+1,z+1).setType(Material.WHITE_STAINED_GLASS);
-
                 wrld.getBlockAt(x-1,y,z).setType(Material.QUARTZ_BRICKS);
                 wrld.getBlockAt(x-1,y+1,z).setType(Material.TARGET);
 
@@ -108,81 +92,19 @@ public class PlaceController {
         int z = loc.getBlockZ();
 
         String[] parts = fixLocation(loc,p).split("/");
-
-        if (ConfigHelper.checkLocations(fixLocation(loc,p))) {
-            ConfigHelper.deleteLoc(new Location(Bukkit.getServer().getWorld(parts[3]), Integer.parseInt(parts[0]), Integer.parseInt(parts[1]), Integer.parseInt(parts[2])),p);
-
-            if (f == BlockFace.NORTH) {
-                wrld.getBlockAt(x-1,y-1,z-1).setType(Material.SMOOTH_QUARTZ);
-                wrld.getBlockAt(x-1,y,z-1).setType(Material.CHEST);
-                wrld.getBlockAt(x-1,y+1,z-1).setType(Material.WHITE_STAINED_GLASS);
-
-                wrld.getBlockAt(x,y,z-1).setType(Material.QUARTZ_BRICKS);
-                wrld.getBlockAt(x,y+1,z-1).setType(Material.TARGET);
-
-                wrld.getBlockAt(x+1,y-1,z-1).setType(Material.SMOOTH_QUARTZ);
-                wrld.getBlockAt(x+1,y,z-1).setType(Material.BARRIER);
-                wrld.getBlockAt(x+1,y+1,z-1).setType(Material.BARRIER);
-
-                wrld.getBlockAt(x+2,y-1,z-1).setType(Material.SMOOTH_QUARTZ);
-                wrld.getBlockAt(x+2,y,z-1).setType(Material.BARRIER);
-                wrld.getBlockAt(x+2,y+1,z-1).setType(Material.BARRIER);
-            }
-
-            if (f == BlockFace.EAST) {
-                wrld.getBlockAt(x+1,y-1,z-1).setType(Material.SMOOTH_QUARTZ);
-                wrld.getBlockAt(x+1,y,z-1).setType(Material.CHEST);
-                wrld.getBlockAt(x+1,y+1,z-1).setType(Material.WHITE_STAINED_GLASS);
-
-                wrld.getBlockAt(x+1,y,z).setType(Material.QUARTZ_BRICKS);
-                wrld.getBlockAt(x+1,y+1,z).setType(Material.TARGET);
-
-                wrld.getBlockAt(x+1,y-1,z+1).setType(Material.SMOOTH_QUARTZ);
-                wrld.getBlockAt(x+1,y,z+1).setType(Material.BARRIER);
-                wrld.getBlockAt(x+1,y+1,z+1).setType(Material.BARRIER);
-
-                wrld.getBlockAt(x+1,y-1,z+2).setType(Material.SMOOTH_QUARTZ);
-                wrld.getBlockAt(x+1,y,z+2).setType(Material.BARRIER);
-                wrld.getBlockAt(x+1,y+1,z+2).setType(Material.BARRIER);
-            }
-
-            if (f == BlockFace.SOUTH) {
-                wrld.getBlockAt(x+1,y-1,z+1).setType(Material.SMOOTH_QUARTZ);
-                wrld.getBlockAt(x+1,y,z+1).setType(Material.CHEST);
-                wrld.getBlockAt(x+1,y+1,z+1).setType(Material.WHITE_STAINED_GLASS);
-
-                wrld.getBlockAt(x,y,z+1).setType(Material.QUARTZ_BRICKS);
-                wrld.getBlockAt(x,y+1,z+1).setType(Material.TARGET);
-
-                wrld.getBlockAt(x-1,y-1,z+1).setType(Material.SMOOTH_QUARTZ);
-                wrld.getBlockAt(x-1,y,z+1).setType(Material.BARRIER);
-                wrld.getBlockAt(x-1,y+1,z+1).setType(Material.BARRIER);
-
-                wrld.getBlockAt(x-2,y-1,z+1).setType(Material.SMOOTH_QUARTZ);
-                wrld.getBlockAt(x-2,y,z+1).setType(Material.BARRIER);
-                wrld.getBlockAt(x-2,y+1,z+1).setType(Material.BARRIER);
-            }
-
-            if (f == BlockFace.WEST) {
-                wrld.getBlockAt(x-1,y-1,z+1).setType(Material.SMOOTH_QUARTZ);
-                wrld.getBlockAt(x-1,y,z+1).setType(Material.CHEST);
-                wrld.getBlockAt(x-1,y+1,z+1).setType(Material.WHITE_STAINED_GLASS);
-
-                wrld.getBlockAt(x-1,y,z).setType(Material.QUARTZ_BRICKS);
-                wrld.getBlockAt(x-1,y+1,z).setType(Material.TARGET);
-
-                wrld.getBlockAt(x-1,y-1,z-1).setType(Material.SMOOTH_QUARTZ);
-                wrld.getBlockAt(x-1,y,z-1).setType(Material.BARRIER);
-                wrld.getBlockAt(x-1,y+1,z-1).setType(Material.BARRIER);
-
-                wrld.getBlockAt(x-1,y-1,z-2).setType(Material.SMOOTH_QUARTZ);
-                wrld.getBlockAt(x-1,y,z-2).setType(Material.BARRIER);
-                wrld.getBlockAt(x-1,y+1,z-2).setType(Material.BARRIER);
-            }
-
+        if (ConfigHelper.checkLocations(loc,p)) {
+            ConfigHelper.deleteLoc(loc,p);
             p.sendMessage(ChatController.succes("Station an Position §f> §b" + parts[0] + "§f.§b" + parts[1] + "§f.§b" + parts[2] + "§f < §a gelöscht"));
         } else {
             p.sendMessage(ChatController.error("Station nicht gefunden"));
         }
+    }
+
+    public static void open(Location loc, Player p) {
+
+    }
+
+    public static void close(Location loc, Player p) {
+
     }
 }

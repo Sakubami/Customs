@@ -6,6 +6,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.event.block.BlockFadeEvent;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -14,36 +15,33 @@ public class ConfigHelper {
     private static final String path1 = "plugins/Zollsystem/Zollstationen.yml";
 
     public static void addLocation(Location loc, Player p) {
-
-        String[] parts = fixLocation(loc,p).split("/");
-
         FileConfiguration config = YamlConfiguration.loadConfiguration(new File(path1));
         for(int i = 0; true; i++) {
             if(!config.contains("stations."+i)) {
 
                 config.set("stations."+i+".id", String.valueOf(i));
-                config.set("stations."+i+".location", parts[0]+"/"+parts[1]+"/"+parts[2]+"/"+parts[3]);
+                config.set("stations."+i+".location", fixLocation(loc,p));
+                config.set("stations."+i+".direction", p.getFacing());
 
                 try {
                     config.save(new File(path1));
-                }catch (Exception ignored){}
+                } catch (Exception ignored) {}
                 return;
             }
         }
     }
 
     public static void deleteLoc(Location loc, Player p) {
-
-        String fixedLoc = fixLocation(loc,p);
-
         FileConfiguration config = YamlConfiguration.loadConfiguration(new File(path1));
         for(int i = 0; true; i++) {
             if(config.contains("stations."+i)) {
-                if (config.getString("stations."+i+".location").equalsIgnoreCase(fixedLoc)) {
+                if (config.getString("stations."+i+".location").equalsIgnoreCase(fixLocation(loc,p))) {
+
                     config.set("stations."+i+".location", 0 + "/" + 1000 + "/" + 0 + "/" + loc.getWorld().getName());
+
                     try {
                         config.save(new File(path1));
-                    }catch (Exception ignored){}
+                    } catch (Exception ignored) {}
                     return;
                 }
             }
@@ -60,19 +58,30 @@ public class ConfigHelper {
 
             String name = config.getString("stations."+i+".id");
             String location = config.getString("stations."+i+".location");
-            String line = name+"§"+location;
+            String dir = config.getString("stations."+i+".direction");
+            String line = name+"§"+location+"§"+dir;
             list.add(line);
         }
     }
 
-    public static boolean checkLocations(String loc) {
+    public static boolean checkLocations(Location loc, Player p) {
         for(String list : loadLocations()) {
             String[] str = list.split("§");
-            if (str[1].equalsIgnoreCase(loc)) {
+            if (str[1].equalsIgnoreCase(fixLocation(loc,p))) {
                 return true;
             }
         }
         return false;
+    }
+
+    public static BlockFace getDirection(Location loc, Player p) {
+        for(String list : loadLocations()) {
+            String[] str = list.split("§");
+            if (str[1].equalsIgnoreCase(fixLocation(loc,p))) {
+                return BlockFace.valueOf(str[2]);
+            }
+        }
+        return null;
     }
 
     public static Location getLoc(String id) {

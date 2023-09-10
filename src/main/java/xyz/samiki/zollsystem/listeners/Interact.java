@@ -28,6 +28,7 @@ public class Interact implements Listener {
                     for(int i = 0; i < ConfigHelper.loadLocations().size(); i++) {
                         if (loc.equals(ConfigHelper.getLoc(String.valueOf(i)))) {
                             p.openInventory(Inventorys.getConfirmation());
+
                             break;
                         }
                     }
