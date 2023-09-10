@@ -17,7 +17,7 @@ public class InventoryClick implements Listener {
 
         ItemStack item = e.getCurrentItem();
         Player p = (Player) e.getWhoClicked();
-        if (getTitle(e,"Tageszeitung") || getTitle(e,"Wirtschaft") || getTitle(e,"Admin")) {
+        if (getTitle(e,"§4Kostenpflichtig §cPassieren?")) {
             if (item != null) {
                 if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§aJa")) {
                     // do stuff
@@ -28,6 +28,10 @@ public class InventoryClick implements Listener {
 
                 if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§cNein")) {
                     e.getView().close();
+                    e.setCancelled(true);
+                }
+
+                if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§0")) {
                     e.setCancelled(true);
                 }
             }

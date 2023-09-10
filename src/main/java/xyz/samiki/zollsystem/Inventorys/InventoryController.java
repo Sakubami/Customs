@@ -17,7 +17,6 @@ public class InventoryController {
         for (int i = inv.getSize()-9; i < inv.getSize(); i++) {
             inv.setItem(i, ItemController.getItem(Material.GRAY_STAINED_GLASS_PANE,"§0"));
         }
-        inv.setItem(inv.getSize()-5, ItemController.getItem(Material.RED_STAINED_GLASS_PANE,"§cSchließen"));
         return inv;
     }
 }

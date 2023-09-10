@@ -57,6 +57,10 @@ public class ZollCommand implements CommandExecutor {
                 check = 1;
             }
 
+            if (args[0].equalsIgnoreCase("debug")) {
+                check = 1;
+            }
+
             if (check == 0) {
                 p.sendMessage(ChatController.error("Dieser Subcommand existiert nicht!"));
             }
