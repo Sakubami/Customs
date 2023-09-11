@@ -2,6 +2,7 @@ package xyz.samiki.zollsystem.listeners;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -34,6 +35,7 @@ public class InventoryClick implements Listener {
 
                     ConfigHelper.setBusy(ConfigHelper.getLocByStatus(p), true);
                     PlaceController.open(p);
+                    p.playSound(p, Sound.BLOCK_NOTE_BLOCK_HARP, 21 , 1);
                     Bukkit.getScheduler().runTaskLater(ZollSystem.getPlugin(), bukkitTask -> {
 
                         PlaceController.close(p);
