@@ -1,8 +1,2 @@
-target/*
-/target
-target/classes/xyz/samiki/zollsystem/commands/ZollCommand.class
-target/classes/xyz/samiki/zollsystem/ConfigHelper.class
-target/classes/xyz/samiki/zollsystem/controllers/PlaceController.class
-target/classes/xyz/samiki/zollsystem/listeners/Interact.class
-target/classes/xyz/samiki/zollsystem/listeners/InventoryClick.class
+target/
 .idea/
