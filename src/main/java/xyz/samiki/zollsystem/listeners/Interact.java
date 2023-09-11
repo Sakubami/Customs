@@ -28,8 +28,10 @@ public class Interact implements Listener {
                         if (loc.equals(ConfigHelper.getLoc(String.valueOf(i)))) {
                             if (ConfigHelper.isEnabled()) {
                                 if (ConfigHelper.checkBusy(loc)) {
-                                    ConfigHelper.setStatus(loc, p, true);
-                                    p.openInventory(Inventorys.getConfirmation(ConfigHelper.getPrice(loc)));
+                                    if (ConfigHelper.checkStatus(loc)) {
+                                        ConfigHelper.setStatus(loc, p, true);
+                                        p.openInventory(Inventorys.getConfirmation(ConfigHelper.getPrice(loc)));
+                                    }
                                 } else {
                                     p.sendMessage(ChatController.error("Dieses Tor ist bereits offen"));
                                 }
