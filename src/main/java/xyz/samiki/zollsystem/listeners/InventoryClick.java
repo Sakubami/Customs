@@ -1,6 +1,5 @@
 package xyz.samiki.zollsystem.listeners;
 
-import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -41,8 +40,9 @@ public class InventoryClick implements Listener {
 
                             p.playSound(p, Sound.BLOCK_NOTE_BLOCK_HARP, 21 , 1);
                             ZollSystem.getEconomy().withdrawPlayer(p, price);
-
                             p.sendMessage(ChatController.generic("Dir wurden §c" + price + "$ §7Berechnet"));
+
+                            ZollSystem.getEconomy().depositPlayer(owner,price);
 
                             if (ownerPlayer != null) {
                                 ownerPlayer.sendMessage(ChatController.generic("+ §c" + price + "$ §7Zoll"));
