@@ -23,7 +23,9 @@ public class ZollCommand implements CommandExecutor {
                 §3
                 §4 Setup §7- §fStation erstellen
                 §4 List §7- §fStationen auflisten
-                §c Coming Soon
+                §4 Enabled §7- §fPforten umschalten
+                §a
+                §f AKTUELL -> §""" + ChatController.enabled() + """
                 §a
                 §8==============================
                 """;
@@ -65,12 +67,25 @@ public class ZollCommand implements CommandExecutor {
                 check = 1;
             }
 
-            if (args[0].equalsIgnoreCase("debug")) {
+            if (args[0].equalsIgnoreCase("enabled")) {
+                try {
+                    ConfigHelper.setEnabled(Boolean.parseBoolean(args[1]));
+                    if (args[1].equalsIgnoreCase("true")) {
+                        p.sendMessage(ChatController.error("§7Zollpforten wurden §ageöffnet"));
+                    } else if (args[1].equalsIgnoreCase("false")) {
+                        p.sendMessage(ChatController.error("§7Zollpforten wurden §cgeschlossen"));
+                    } else {
+                        p.sendMessage(ChatController.generic("§4Enabled §f[§aTrue §f/ §cfalse§f]"));
+                    }
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    p.sendMessage(ChatController.generic("§4Enabled §f[§aTrue §f/ §cfalse§f]"));
+                }
+
                 check = 1;
             }
 
             if (check == 0) {
-                p.sendMessage(ChatController.error("Dieser Subcommand existiert nicht!"));
+                p.sendMessage(ChatController.error("Dieser Subcommand existiert nicht"));
             }
 
         } catch (ArrayIndexOutOfBoundsException e){

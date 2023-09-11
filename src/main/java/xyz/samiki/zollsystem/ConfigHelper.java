@@ -15,6 +15,7 @@ import java.util.Arrays;
 
 public class ConfigHelper {
     private static final String path1 = "plugins/Zollsystem/Zollstationen.yml";
+    private static final String path2 = "plugins/Zollsystem/Zollsystem.yml";
 
     public static void addLocation(Location loc, Player p, int preis) {
         FileConfiguration config = YamlConfiguration.loadConfiguration(new File(path1));
@@ -95,6 +96,14 @@ public class ConfigHelper {
         }
     }
 
+    public static void setEnabled(boolean status) {
+        FileConfiguration config = YamlConfiguration.loadConfiguration(new File(path2));
+        config.set("enabled", status);
+        try {
+            config.save(new File(path2));
+        } catch (Exception ignored) {}
+    }
+
     public static ArrayList<String> loadLocations() {
         ArrayList<String> list = new ArrayList<>();
         FileConfiguration config = YamlConfiguration.loadConfiguration(new File(path1));
@@ -112,6 +121,15 @@ public class ConfigHelper {
             String line = name+"%"+location+"%"+dir+"%"+status+"%"+busy+"%"+preis;
             list.add(line);
         }
+    }
+
+    public static String loadEnabled() {
+        FileConfiguration config = YamlConfiguration.loadConfiguration(new File(path2));
+        return config.getString("enabled");
+    }
+
+    public static boolean isEnabled() {
+        return Boolean.parseBoolean(String.valueOf(loadEnabled()));
     }
 
     public static boolean checkLocations(Location loc, Player p) {

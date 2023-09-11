@@ -29,13 +29,17 @@ public class Interact implements Listener {
                 if ((e.getAction().equals(Action.RIGHT_CLICK_BLOCK))) {
                     for(int i = 0; i < ConfigHelper.loadLocations().size(); i++) {
                         if (loc.equals(ConfigHelper.getLoc(String.valueOf(i)))) {
-                            if (ConfigHelper.checkBusy(loc)) {
-                                ConfigHelper.setStatus(loc, p, true);
-                                p.openInventory(Inventorys.getConfirmation(ConfigHelper.getPrice(loc)));
+                            if (ConfigHelper.isEnabled()) {
+                                if (ConfigHelper.checkBusy(loc)) {
+                                    ConfigHelper.setStatus(loc, p, true);
+                                    p.openInventory(Inventorys.getConfirmation(ConfigHelper.getPrice(loc)));
+                                } else {
+                                    p.sendMessage(ChatController.error("Dieses Tor ist bereits offen"));
+                                }
+                                break;
                             } else {
-                                p.sendMessage(ChatController.error("Dieses Tor ist bereits offen"));
+                                p.sendMessage(ChatController.error("§4Diese Pforte wurde vorrübergehend geschlossen!"));
                             }
-                            break;
                         }
                     }
                 }

@@ -28,7 +28,7 @@ public class InventoryClick implements Listener {
         ItemStack item = e.getCurrentItem();
         Player p = (Player) e.getWhoClicked();
 
-        if (e.getView().getTitle().equalsIgnoreCase("§4Kostenpflichtig §7Passieren?")) {
+        if (e.getView().getTitle().equalsIgnoreCase("§4Kostenpflichtig §8Passieren?")) {
             if (item != null) {
                 if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§aJa")) {
 
@@ -72,7 +72,7 @@ public class InventoryClick implements Listener {
     @EventHandler
     public void makeButtonsDoStuff(InventoryCloseEvent e) {
         Player p = (Player) e.getPlayer();
-        if (e.getView().getTitle().equalsIgnoreCase("§4Kostenpflichtig §cPassieren?")) {
+        if (e.getView().getTitle().equalsIgnoreCase("§4Kostenpflichtig §8Passieren?")) {
             if (check == 0) {
                 ConfigHelper.setStatus(ConfigHelper.getLocByStatus(p), p, false);
             }
