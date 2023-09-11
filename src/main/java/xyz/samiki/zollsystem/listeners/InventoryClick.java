@@ -6,19 +6,12 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitTask;
 import xyz.samiki.zollsystem.ConfigHelper;
 import xyz.samiki.zollsystem.ZollSystem;
-import xyz.samiki.zollsystem.controllers.ChatController;
 import xyz.samiki.zollsystem.controllers.PlaceController;
-
-import java.net.http.WebSocket;
 
 public class InventoryClick implements Listener {
     private int check = 0;
@@ -30,6 +23,7 @@ public class InventoryClick implements Listener {
         Player p = (Player) e.getWhoClicked();
 
         if (e.getView().getTitle().equalsIgnoreCase("§4Kostenpflichtig §8Passieren?")) {
+
             if (item != null) {
                 if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§aJa")) {
 
@@ -54,6 +48,7 @@ public class InventoryClick implements Listener {
                 if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§cNein")) {
 
                     ConfigHelper.setStatus(ConfigHelper.getLocByStatus(p), p, false);
+
                     check = 1;
 
                     e.getView().close();
@@ -74,8 +69,8 @@ public class InventoryClick implements Listener {
     @EventHandler
     public void makeButtonsDoStuff(InventoryCloseEvent e) {
         Player p = (Player) e.getPlayer();
-        if (e.getView().getTitle().equalsIgnoreCase("§4Kostenpflichtig §8Passieren?")) {
-            if (check == 0) {
+        if (check == 0) {
+            if (e.getView().getTitle().equalsIgnoreCase("§4Kostenpflichtig §8Passieren?")) {
                 ConfigHelper.setStatus(ConfigHelper.getLocByStatus(p), p, false);
             }
         }

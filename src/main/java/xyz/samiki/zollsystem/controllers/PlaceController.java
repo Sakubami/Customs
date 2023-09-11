@@ -4,7 +4,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import xyz.samiki.zollsystem.ConfigHelper;
@@ -85,8 +84,8 @@ public class PlaceController {
 
     public static void delete(Location loc, Player p) {
 
-        String[] parts = fixLocation(loc,p).split("/");
-        BlockFace f = p.getFacing();
+        String[] parts = fixLocation(loc, p).split("/");
+        BlockFace f = ConfigHelper.getDirection(new Location(Bukkit.getServer().getWorld(parts[3]), Integer.parseInt(parts[0]), Integer.parseInt(parts[1]), Integer.parseInt(parts[2])));
         World wrld = Bukkit.getServer().getWorld(parts[3]);
         int x = Integer.parseInt(parts[0]);
         int y = Integer.parseInt(parts[1]);
@@ -160,7 +159,7 @@ public class PlaceController {
     public static void open(Player p) {
 
         Location loc = ConfigHelper.getLocByStatus(p);
-        BlockFace f = ConfigHelper.getDirection(p);
+        BlockFace f = ConfigHelper.getDirection(loc);
         World wrld = loc.getWorld();
         int x = loc.getBlockX();
         int y = loc.getBlockY();
@@ -203,7 +202,7 @@ public class PlaceController {
     public static void close(Player p) {
 
         Location loc = ConfigHelper.getLocByStatus(p);
-        BlockFace f = ConfigHelper.getDirection(p);
+        BlockFace f = ConfigHelper.getDirection(loc);
         World wrld = loc.getWorld();
         int x = loc.getBlockX();
         int y = loc.getBlockY();

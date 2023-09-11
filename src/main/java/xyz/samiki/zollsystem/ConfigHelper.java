@@ -2,16 +2,13 @@ package xyz.samiki.zollsystem;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.event.block.BlockFadeEvent;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class ConfigHelper {
     private static final String path1 = "plugins/Zollsystem/Zollstationen.yml";
@@ -175,10 +172,10 @@ public class ConfigHelper {
         return null;
     }
 
-    public static BlockFace getDirection(Player p) {
+    public static BlockFace getDirection(Location loc) {
         for(String list : loadLocations()) {
             String[] str = list.split("%");
-            if (str[3].equalsIgnoreCase(p.getDisplayName())) {
+            if (str[1].equalsIgnoreCase(loc.getBlockX() + "/" + loc.getBlockY() + "/" + loc.getBlockZ() + "/" + loc.getWorld().getName())) {
                 return BlockFace.valueOf(str[2]);
             }
         }
