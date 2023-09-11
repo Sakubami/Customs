@@ -12,7 +12,7 @@ import static xyz.samiki.zollsystem.ConfigHelper.fixLocation;
 
 public class PlaceController {
 
-    public static void create(Location loc, Player p, int price) {
+    public static void create(Location loc, Player p, double price, String owner) {
 
         BlockFace f = p.getFacing();
         World wrld = loc.getWorld();
@@ -21,7 +21,7 @@ public class PlaceController {
         int z = loc.getBlockZ();
 
         if (!ConfigHelper.checkLocations(loc, p)) {
-            ConfigHelper.addLocation(loc, p, price);
+            ConfigHelper.addLocation(loc, p, price, owner);
 
             if (f == BlockFace.NORTH) {
                 wrld.getBlockAt(x,y,z-1).setType(Material.QUARTZ_BRICKS);
