@@ -59,7 +59,7 @@ public class InventoryClick implements Listener {
 
                             },100);
                         } else {
-                            p.sendMessage(ChatController.error("§4FEHLER: §cDiese Pforte hat einen ungültigen Owner! Bitte kontaktiere einen Developer - §d(saku / sakubami) §c- per Ticket im Discord mit einem Screenshot dieser Nachricht und deinen Coordinaten"));
+                            p.sendMessage(ChatController.error("§4FEHLER: §cDiese Pforte hat einen ungültigen Owner! Bitte kontaktiere den Developer §f- §bsaku §f/ §bsakubami§f - §cper Ticket im Discord mit einem Screenshot dieser Nachricht und deinen Coordinaten"));
                         }
                     } else {
                         p.sendMessage(ChatController.error("Du hast nicht genügend Geld"));
