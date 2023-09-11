@@ -40,7 +40,7 @@ public class InventoryClick implements Listener {
 
                             p.playSound(p, Sound.BLOCK_NOTE_BLOCK_HARP, 21 , 1);
                             ZollSystem.getEconomy().withdrawPlayer(p, price);
-                            p.sendMessage(ChatController.generic("Dir wurden §c" + price + "$ §7Berechnet"));
+                            p.sendMessage(ChatController.generic("Dir wurden §c" + price + "$ §7Zoll Berechnet"));
 
                             ZollSystem.getEconomy().depositPlayer(owner,price);
 
