@@ -28,7 +28,7 @@ public class InventoryClick implements Listener {
         ItemStack item = e.getCurrentItem();
         Player p = (Player) e.getWhoClicked();
 
-        if (e.getView().getTitle().equalsIgnoreCase("§4Kostenpflichtig §cPassieren?")) {
+        if (e.getView().getTitle().equalsIgnoreCase("§4Kostenpflichtig §7Passieren?")) {
             if (item != null) {
                 if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§aJa")) {
 
@@ -59,6 +59,10 @@ public class InventoryClick implements Listener {
                 }
 
                 if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§0")) {
+                    e.setCancelled(true);
+                }
+
+                if (item.getType().equals(Material.GOLD_NUGGET)) {
                     e.setCancelled(true);
                 }
             }

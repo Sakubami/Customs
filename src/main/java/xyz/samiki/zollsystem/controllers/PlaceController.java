@@ -13,7 +13,7 @@ import static xyz.samiki.zollsystem.ConfigHelper.fixLocation;
 
 public class PlaceController {
 
-    public static void create(Location loc, Player p) {
+    public static void create(Location loc, Player p, int price) {
 
         BlockFace f = p.getFacing();
         World wrld = loc.getWorld();
@@ -21,8 +21,8 @@ public class PlaceController {
         int y = loc.getBlockY();
         int z = loc.getBlockZ();
 
-        if (!ConfigHelper.checkLocations(loc,p)) {
-            ConfigHelper.addLocation(loc,p);
+        if (!ConfigHelper.checkLocations(loc, p)) {
+            ConfigHelper.addLocation(loc, p, price);
 
             if (f == BlockFace.NORTH) {
                 wrld.getBlockAt(x,y,z-1).setType(Material.QUARTZ_BRICKS);
@@ -85,15 +85,72 @@ public class PlaceController {
 
     public static void delete(Location loc, Player p) {
 
-        BlockFace f = p.getFacing();
-        World wrld = loc.getWorld();
-        int x = loc.getBlockX();
-        int y = loc.getBlockY();
-        int z = loc.getBlockZ();
-
         String[] parts = fixLocation(loc,p).split("/");
+        BlockFace f = p.getFacing();
+        World wrld = Bukkit.getServer().getWorld(parts[3]);
+        int x = Integer.parseInt(parts[0]);
+        int y = Integer.parseInt(parts[1]);
+        int z = Integer.parseInt(parts[2]);
+
         if (ConfigHelper.checkLocations(loc,p)) {
             ConfigHelper.deleteLoc(loc,p);
+
+            if (f == BlockFace.NORTH) {
+                wrld.getBlockAt(x,y,z).setType(Material.AIR);
+                wrld.getBlockAt(x,y-1,z).setType(Material.AIR);
+                wrld.getBlockAt(x,y-2,z).setType(Material.AIR);
+
+                wrld.getBlockAt(x+1,y,z).setType(Material.AIR);
+                wrld.getBlockAt(x+1,y-1,z).setType(Material.AIR);
+                wrld.getBlockAt(x+1,y-2,z).setType(Material.AIR);
+
+                wrld.getBlockAt(x+2,y,z).setType(Material.AIR);
+                wrld.getBlockAt(x+2,y-1,z).setType(Material.AIR);
+                wrld.getBlockAt(x+2,y-2,z).setType(Material.AIR);
+            }
+
+            if (f == BlockFace.EAST) {
+                wrld.getBlockAt(x,y,z).setType(Material.AIR);
+                wrld.getBlockAt(x,y-1,z).setType(Material.AIR);
+                wrld.getBlockAt(x,y-2,z).setType(Material.AIR);
+
+                wrld.getBlockAt(x,y,z+1).setType(Material.AIR);
+                wrld.getBlockAt(x,y-1,z+1).setType(Material.AIR);
+                wrld.getBlockAt(x,y-2,z+1).setType(Material.AIR);
+
+                wrld.getBlockAt(x,y,z+2).setType(Material.AIR);
+                wrld.getBlockAt(x,y-1,z+2).setType(Material.AIR);
+                wrld.getBlockAt(x,y-2,z+2).setType(Material.AIR);
+            }
+
+            if (f == BlockFace.SOUTH) {
+                wrld.getBlockAt(x,y,z).setType(Material.AIR);
+                wrld.getBlockAt(x,y-1,z).setType(Material.AIR);
+                wrld.getBlockAt(x,y-2,z).setType(Material.AIR);
+
+                wrld.getBlockAt(x-1,y,z).setType(Material.AIR);
+                wrld.getBlockAt(x-1,y-1,z).setType(Material.AIR);
+                wrld.getBlockAt(x-1,y-2,z).setType(Material.AIR);
+
+                wrld.getBlockAt(x-2,y,z).setType(Material.AIR);
+                wrld.getBlockAt(x-2,y-1,z).setType(Material.AIR);
+                wrld.getBlockAt(x-2,y-2,z).setType(Material.AIR);
+            }
+
+            if (f == BlockFace.WEST) {
+                wrld.getBlockAt(x,y,z).setType(Material.AIR);
+                wrld.getBlockAt(x,y-1,z).setType(Material.AIR);
+                wrld.getBlockAt(x,y-2,z).setType(Material.AIR);
+
+                wrld.getBlockAt(x,y,z-1).setType(Material.AIR);
+                wrld.getBlockAt(x,y-1,z-1).setType(Material.AIR);
+                wrld.getBlockAt(x,y-2,z-1).setType(Material.AIR);
+
+                wrld.getBlockAt(x,y,z-2).setType(Material.AIR);
+                wrld.getBlockAt(x,y-1,z-2).setType(Material.AIR);
+                wrld.getBlockAt(x,y-2,z-2).setType(Material.AIR);
+            }
+
             p.sendMessage(ChatController.succes("Station an Position §f> §b" + parts[0] + "§f.§b" + parts[1] + "§f.§b" + parts[2] + "§f < §a gelöscht"));
         } else {
             p.sendMessage(ChatController.error("Station nicht gefunden"));

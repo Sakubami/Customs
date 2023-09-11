@@ -16,7 +16,7 @@ import java.util.Arrays;
 public class ConfigHelper {
     private static final String path1 = "plugins/Zollsystem/Zollstationen.yml";
 
-    public static void addLocation(Location loc, Player p) {
+    public static void addLocation(Location loc, Player p, int preis) {
         FileConfiguration config = YamlConfiguration.loadConfiguration(new File(path1));
         for(int i = 0; true; i++) {
             if(!config.contains("stations."+i)) {
@@ -26,6 +26,7 @@ public class ConfigHelper {
                 config.set("stations."+i+".direction", p.getFacing().toString());
                 config.set("stations."+i+".status", false);
                 config.set("stations."+i+".busy", false);
+                config.set("stations."+i+".preis", preis);
 
                 try {
                     config.save(new File(path1));
@@ -107,7 +108,8 @@ public class ConfigHelper {
             String dir = config.getString("stations."+i+".direction");
             String status = config.getString("stations."+i+".status");
             String busy = config.getString("stations."+i+".busy");
-            String line = name+"%"+location+"%"+dir+"%"+status+"%"+busy;
+            String preis = config.getString("stations."+i+".preis");
+            String line = name+"%"+location+"%"+dir+"%"+status+"%"+busy+"%"+preis;
             list.add(line);
         }
     }
@@ -120,6 +122,16 @@ public class ConfigHelper {
             }
         }
         return false;
+    }
+
+    public static int getPrice(Location loc) {
+        for(String list : loadLocations()) {
+            String[] str = list.split("%");
+            if (str[1].equalsIgnoreCase(loc.getBlockX() + "/" + loc.getBlockY() + "/" + loc.getBlockZ() + "/" + loc.getWorld().getName())) {
+                return Integer.parseInt(str[5]);
+            }
+        }
+        return 0;
     }
 
     public static boolean checkBusy(Location loc) {

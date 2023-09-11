@@ -6,6 +6,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.Permission;
 import xyz.samiki.zollsystem.ConfigHelper;
 import xyz.samiki.zollsystem.controllers.ChatController;
 import xyz.samiki.zollsystem.controllers.PlaceController;
@@ -48,7 +49,14 @@ public class ZollCommand implements CommandExecutor {
             }
 
             if (args[0].equalsIgnoreCase("setup")) {
-                PlaceController.create(loc,p);
+                try {
+                    PlaceController.create(loc, p , Integer.parseInt(args[1]));
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    p.sendMessage(ChatController.generic("§4Setup §f[§7Preis§f]"));
+                } catch (NumberFormatException e) {
+                    p.sendMessage(ChatController.error("Bitte einen Preis eingeben"));
+                }
+
                 check = 1;
             }
 
