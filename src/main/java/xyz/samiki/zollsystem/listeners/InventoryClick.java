@@ -37,20 +37,12 @@ public class InventoryClick implements Listener {
                         ConfigHelper.setStatus(ConfigHelper.getLocByStatus(p), p, false);
 
                     },100);
-
-                    check = 1;
-
                     // take money
                     e.getView().close();
                     e.setCancelled(true);
                 }
 
                 if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§cNein")) {
-
-                    ConfigHelper.setStatus(ConfigHelper.getLocByStatus(p), p, false);
-
-                    check = 1;
-
                     e.getView().close();
                     e.setCancelled(true);
                 }
@@ -69,8 +61,8 @@ public class InventoryClick implements Listener {
     @EventHandler
     public void makeButtonsDoStuff(InventoryCloseEvent e) {
         Player p = (Player) e.getPlayer();
-        if (check == 0) {
-            if (e.getView().getTitle().equalsIgnoreCase("§4Kostenpflichtig §8Passieren?")) {
+        if (e.getView().getTitle().equalsIgnoreCase("§4Kostenpflichtig §8Passieren?")) {
+            if (ConfigHelper.checkBusy(ConfigHelper.getLocByStatus(p))) {
                 ConfigHelper.setStatus(ConfigHelper.getLocByStatus(p), p, false);
             }
         }
