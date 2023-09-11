@@ -9,6 +9,8 @@ import xyz.samiki.zollsystem.ConfigHelper;
 import xyz.samiki.zollsystem.controllers.ChatController;
 import xyz.samiki.zollsystem.controllers.PlaceController;
 
+import java.text.DecimalFormat;
+
 public class ZollCommand implements CommandExecutor {
 
     @Override
@@ -51,9 +53,10 @@ public class ZollCommand implements CommandExecutor {
 
             if (args[0].equalsIgnoreCase("create")) {
                 try {
-                    PlaceController.create(loc, p , Integer.parseInt(args[1]));
+                    PlaceController.create(loc, p , Double.parseDouble(args[2]), args[1]);
                 } catch (ArrayIndexOutOfBoundsException e) {
-                    p.sendMessage(ChatController.generic("§4Create §f[§7Preis§f]"));
+                    p.sendMessage(ChatController.generic("§4Create §f[§7OWNER§f] §f[§7Preis§f]"));
+                    p.sendMessage(ChatController.error("§4WICHTIG: §cBitte auf groß und Kleinschreibung achten!"));
                 } catch (NumberFormatException e) {
                     p.sendMessage(ChatController.error("Bitte einen Preis eingeben"));
                 }
