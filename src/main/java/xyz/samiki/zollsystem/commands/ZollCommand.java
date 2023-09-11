@@ -76,9 +76,11 @@ public class ZollCommand implements CommandExecutor {
                         p.sendMessage(ChatController.error("§7Zollpforten wurden §cgeschlossen"));
                     } else {
                         p.sendMessage(ChatController.generic("§4Enabled §f[§aTrue §f/ §cfalse§f]"));
+                        p.sendMessage(ChatController.generic("§f AKTUELL -> " + ChatController.enabled()));
                     }
                 } catch (ArrayIndexOutOfBoundsException e) {
                     p.sendMessage(ChatController.generic("§4Enabled §f[§aTrue §f/ §cfalse§f]"));
+                    p.sendMessage(ChatController.generic("§fAKTUELL -> " + ChatController.enabled()));
                 }
 
                 check = 1;
