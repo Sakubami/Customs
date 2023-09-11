@@ -37,7 +37,7 @@ public class ZollCommand implements CommandExecutor {
                         """);
                 p.sendMessage("§6");
                 for(String list : ConfigHelper.loadLocations()) {
-                    String[] str = list.split("§");
+                    String[] str = list.split("%");
                     String[] parts = str[1].split("/");
                     if (!str[1].contains("0/1000/0/")) {
                         p.sendMessage(ChatController.generic("§f> §b" + parts[0] + "§f . §b" + parts[1] + "§f . §b" + parts[2] + "§f <"));

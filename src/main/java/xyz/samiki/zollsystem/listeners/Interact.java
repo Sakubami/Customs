@@ -11,6 +11,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import xyz.samiki.zollsystem.ConfigHelper;
 import xyz.samiki.zollsystem.Inventorys.Inventorys;
+import xyz.samiki.zollsystem.controllers.ChatController;
 
 public class Interact implements Listener {
 
@@ -26,8 +27,12 @@ public class Interact implements Listener {
                 if ((e.getAction().equals(Action.RIGHT_CLICK_BLOCK))) {
                     for(int i = 0; i < ConfigHelper.loadLocations().size(); i++) {
                         if (loc.equals(ConfigHelper.getLoc(String.valueOf(i)))) {
-                            ConfigHelper.setStatus(loc, p, true);
-                            p.openInventory(Inventorys.getConfirmation());
+                            if (ConfigHelper.checkBusy(loc)) {
+                                ConfigHelper.setStatus(loc, p, true);
+                                p.openInventory(Inventorys.getConfirmation());
+                            } else {
+                                p.sendMessage(ChatController.generic("Dieses Tor ist bereits offen"));
+                            }
                             break;
                         }
                     }

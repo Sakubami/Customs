@@ -100,8 +100,9 @@ public class PlaceController {
         }
     }
 
-    public static void open(Location loc, Player p) {
+    public static void open(Player p) {
 
+        Location loc = ConfigHelper.getLocByStatus(p);
         BlockFace f = ConfigHelper.getDirection(p);
         World wrld = loc.getWorld();
         int x = loc.getBlockX();
@@ -109,40 +110,78 @@ public class PlaceController {
         int z = loc.getBlockZ();
 
         if (f == BlockFace.NORTH) {
-            wrld.getBlockAt(x+1,y,z-1).setType(Material.BARRIER);
-            wrld.getBlockAt(x+1,y+1,z-1).setType(Material.BARRIER);
+            wrld.getBlockAt(x+1,y,z).setType(Material.AIR);
+            wrld.getBlockAt(x+1,y-1,z).setType(Material.AIR);
 
-            wrld.getBlockAt(x+2,y,z-1).setType(Material.BARRIER);
-            wrld.getBlockAt(x+2,y+1,z-1).setType(Material.BARRIER);
+            wrld.getBlockAt(x+2,y,z).setType(Material.AIR);
+            wrld.getBlockAt(x+2,y-1,z).setType(Material.AIR);
         }
 
         if (f == BlockFace.EAST) {
-            wrld.getBlockAt(x+1,y,z+1).setType(Material.BARRIER);
-            wrld.getBlockAt(x+1,y+1,z+1).setType(Material.BARRIER);
+            wrld.getBlockAt(x,y,z+1).setType(Material.AIR);
+            wrld.getBlockAt(x,y-1,z+1).setType(Material.AIR);
 
-            wrld.getBlockAt(x+1,y,z+2).setType(Material.BARRIER);
-            wrld.getBlockAt(x+1,y+1,z+2).setType(Material.BARRIER);
+            wrld.getBlockAt(x,y,z+2).setType(Material.AIR);
+            wrld.getBlockAt(x,y-1,z+2).setType(Material.AIR);
         }
 
         if (f == BlockFace.SOUTH) {
-            wrld.getBlockAt(x-1,y,z+1).setType(Material.BARRIER);
-            wrld.getBlockAt(x-1,y+1,z+1).setType(Material.BARRIER);
+            wrld.getBlockAt(x-1,y,z).setType(Material.AIR);
+            wrld.getBlockAt(x-1,y-1,z).setType(Material.AIR);
 
-            wrld.getBlockAt(x-2,y,z+1).setType(Material.BARRIER);
-            wrld.getBlockAt(x-2,y+1,z+1).setType(Material.BARRIER);
+            wrld.getBlockAt(x-2,y,z).setType(Material.AIR);
+            wrld.getBlockAt(x-2,y-1,z).setType(Material.AIR);
         }
 
         if (f == BlockFace.WEST) {
-            wrld.getBlockAt(x-1,y,z-1).setType(Material.BARRIER);
-            wrld.getBlockAt(x-1,y+1,z-1).setType(Material.BARRIER);
+            wrld.getBlockAt(x,y,z-1).setType(Material.AIR);
+            wrld.getBlockAt(x,y-1,z-1).setType(Material.AIR);
 
-            wrld.getBlockAt(x-1,y,z-2).setType(Material.BARRIER);
-            wrld.getBlockAt(x-1,y+1,z-2).setType(Material.BARRIER);
+            wrld.getBlockAt(x,y,z-2).setType(Material.AIR);
+            wrld.getBlockAt(x,y-1,z-2).setType(Material.AIR);
         }
 
     }
 
-    public static void close(Location loc, Player p) {
+    public static void close(Player p) {
 
+        Location loc = ConfigHelper.getLocByStatus(p);
+        BlockFace f = ConfigHelper.getDirection(p);
+        World wrld = loc.getWorld();
+        int x = loc.getBlockX();
+        int y = loc.getBlockY();
+        int z = loc.getBlockZ();
+
+        if (f == BlockFace.NORTH) {
+            wrld.getBlockAt(x+1,y,z).setType(Material.BARRIER);
+            wrld.getBlockAt(x+1,y-1,z).setType(Material.BARRIER);
+
+            wrld.getBlockAt(x+2,y,z).setType(Material.BARRIER);
+            wrld.getBlockAt(x+2,y-1,z).setType(Material.BARRIER);
+        }
+
+        if (f == BlockFace.EAST) {
+            wrld.getBlockAt(x,y,z+1).setType(Material.BARRIER);
+            wrld.getBlockAt(x,y-1,z+1).setType(Material.BARRIER);
+
+            wrld.getBlockAt(x,y,z+2).setType(Material.BARRIER);
+            wrld.getBlockAt(x,y-1,z+2).setType(Material.BARRIER);
+        }
+
+        if (f == BlockFace.SOUTH) {
+            wrld.getBlockAt(x-1,y,z).setType(Material.BARRIER);
+            wrld.getBlockAt(x-1,y-1,z).setType(Material.BARRIER);
+
+            wrld.getBlockAt(x-2,y,z).setType(Material.BARRIER);
+            wrld.getBlockAt(x-2,y-1,z).setType(Material.BARRIER);
+        }
+
+        if (f == BlockFace.WEST) {
+            wrld.getBlockAt(x,y,z-1).setType(Material.BARRIER);
+            wrld.getBlockAt(x,y-1,z-1).setType(Material.BARRIER);
+
+            wrld.getBlockAt(x,y,z-2).setType(Material.BARRIER);
+            wrld.getBlockAt(x,y-1,z-2).setType(Material.BARRIER);
+        }
     }
 }
