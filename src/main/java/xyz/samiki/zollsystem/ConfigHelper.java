@@ -14,7 +14,7 @@ public class ConfigHelper {
     private static final String path1 = "plugins/Zollsystem/Zollstationen.yml";
     private static final String path2 = "plugins/Zollsystem/Zollsystem.yml";
 
-    public static void addLocation(Location loc, Player p, int preis) {
+    public static void addLocation(Location loc, Player p, double price, String owner) {
         FileConfiguration config = YamlConfiguration.loadConfiguration(new File(path1));
         for(int i = 0; true; i++) {
             if(!config.contains("stations."+i)) {
@@ -24,7 +24,8 @@ public class ConfigHelper {
                 config.set("stations."+i+".direction", p.getFacing().toString());
                 config.set("stations."+i+".status", false);
                 config.set("stations."+i+".busy", false);
-                config.set("stations."+i+".preis", preis);
+                config.set("stations."+i+".price", price);
+                config.set("stations."+i+".owner", owner);
 
                 try {
                     config.save(new File(path1));
@@ -114,8 +115,9 @@ public class ConfigHelper {
             String dir = config.getString("stations."+i+".direction");
             String status = config.getString("stations."+i+".status");
             String busy = config.getString("stations."+i+".busy");
-            String preis = config.getString("stations."+i+".preis");
-            String line = name+"%"+location+"%"+dir+"%"+status+"%"+busy+"%"+preis;
+            String price = config.getString("stations."+i+".price");
+            String owner = config.getString("stations."+i+".owner");
+            String line = name+"%"+location+"%"+dir+"%"+status+"%"+busy+"%"+price+"%"+owner;
             list.add(line);
         }
     }
@@ -139,14 +141,24 @@ public class ConfigHelper {
         return false;
     }
 
-    public static int getPrice(Location loc) {
+    public static double getPrice(Location loc) {
         for(String list : loadLocations()) {
             String[] str = list.split("%");
             if (str[1].equalsIgnoreCase(loc.getBlockX() + "/" + loc.getBlockY() + "/" + loc.getBlockZ() + "/" + loc.getWorld().getName())) {
-                return Integer.parseInt(str[5]);
+                return Double.parseDouble(str[5]);
             }
         }
         return 0;
+    }
+
+    public static String getOwner(Location loc) {
+        for(String list : loadLocations()) {
+            String[] str = list.split("%");
+            if (str[1].equalsIgnoreCase(loc.getBlockX() + "/" + loc.getBlockY() + "/" + loc.getBlockZ() + "/" + loc.getWorld().getName())) {
+                return str[6];
+            }
+        }
+        return null;
     }
 
     public static boolean checkBusy(Location loc) {
@@ -159,6 +171,18 @@ public class ConfigHelper {
             }
         }
         return true;
+    }
+
+    public static boolean checkStatus(Location loc) {
+        for(String list : loadLocations()) {
+            String[] str = list.split("%");
+            if (str[1].equalsIgnoreCase(loc.getBlockX() + "/" + loc.getBlockY() + "/" + loc.getBlockZ() + "/" + loc.getWorld().getName())) {
+                if (str[3].equalsIgnoreCase("false")) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public static Location getLocByStatus(Player p) {
