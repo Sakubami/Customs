@@ -21,7 +21,8 @@ public class ZollCommand implements CommandExecutor {
                 §8==============================
                 §6        Benutzung Zollsystem
                 §3
-                §4 Setup §7- §fStation erstellen
+                §4 Create §7- §fStation erstellen
+                §4 Delete §7- §fStation löschen
                 §4 List §7- §fStationen auflisten
                 §4 Enabled §7- §fPforten umschalten
                 §a
@@ -50,11 +51,11 @@ public class ZollCommand implements CommandExecutor {
                 check = 1;
             }
 
-            if (args[0].equalsIgnoreCase("setup")) {
+            if (args[0].equalsIgnoreCase("create")) {
                 try {
                     PlaceController.create(loc, p , Integer.parseInt(args[1]));
                 } catch (ArrayIndexOutOfBoundsException e) {
-                    p.sendMessage(ChatController.generic("§4Setup §f[§7Preis§f]"));
+                    p.sendMessage(ChatController.generic("§4Create §f[§7Preis§f]"));
                 } catch (NumberFormatException e) {
                     p.sendMessage(ChatController.error("Bitte einen Preis eingeben"));
                 }
