@@ -31,73 +31,76 @@ public class ZollCommand implements CommandExecutor {
                 §8==============================
                 """;
 
-        try {
-            int check = 0;
+        if (p.isOp()) {
+            try {
+                int check = 0;
 
-            if (args[0].equalsIgnoreCase("list")) {
-                p.sendMessage("""
+                if (args[0].equalsIgnoreCase("list")) {
+                    p.sendMessage("""
                         §8==============================
                         §6           Zoll Stationen
                         """);
-                p.sendMessage("§6");
-                for(String list : ConfigHelper.loadLocations()) {
-                    String[] str = list.split("%");
-                    String[] parts = str[1].split("/");
-                    if (!str[1].contains("0/1000/0/")) {
-                        p.sendMessage(ChatController.generic("§f> §b" + parts[0] + "§f . §b" + parts[1] + "§f . §b" + parts[2] + "§f <"));
+                    p.sendMessage("§6");
+                    for(String list : ConfigHelper.loadLocations()) {
+                        String[] str = list.split("%");
+                        String[] parts = str[1].split("/");
+                        if (!str[1].contains("0/1000/0/")) {
+                            p.sendMessage(ChatController.generic("§f> §b" + parts[0] + "§f . §b" + parts[1] + "§f . §b" + parts[2] + "§f <"));
+                        }
                     }
-                }
-                p.sendMessage("§8==============================");
-                check = 1;
-            }
-
-            if (args[0].equalsIgnoreCase("create")) {
-                try {
-                    PlaceController.create(loc, p , Double.parseDouble(args[2]), args[1]);
-                } catch (ArrayIndexOutOfBoundsException e) {
-                    p.sendMessage(ChatController.generic("§4Create §f[§7OWNER§f] §f[§7Preis§f]"));
-                    p.sendMessage(ChatController.error("§4WICHTIG: §cBitte auf groß und Kleinschreibung achten!"));
-                } catch (NumberFormatException e) {
-                    p.sendMessage(ChatController.error("Bitte einen Preis eingeben"));
+                    p.sendMessage("§8==============================");
+                    check = 1;
                 }
 
-                check = 1;
-            }
+                if (args[0].equalsIgnoreCase("create")) {
+                    try {
+                        PlaceController.create(loc, p , Double.parseDouble(args[2]), args[1]);
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        p.sendMessage(ChatController.generic("§4Create §f[§7OWNER§f] §f[§7Preis§f]"));
+                        p.sendMessage(ChatController.error("§4WICHTIG: §cBitte auf groß und Kleinschreibung achten!"));
+                    } catch (NumberFormatException e) {
+                        p.sendMessage(ChatController.error("Bitte einen Preis eingeben"));
+                    }
 
-            if (args[0].equalsIgnoreCase("delete")) {
-                PlaceController.delete(loc,p);
-                check = 1;
-            }
+                    check = 1;
+                }
 
-            if (args[0].equalsIgnoreCase("enabled")) {
-                try {
-                    ConfigHelper.setEnabled(Boolean.parseBoolean(args[1]));
-                    if (args[1].equalsIgnoreCase("true")) {
-                        p.sendMessage(ChatController.error("§7Zollpforten wurden §ageöffnet"));
-                    } else if (args[1].equalsIgnoreCase("false")) {
-                        p.sendMessage(ChatController.error("§7Zollpforten wurden §cgeschlossen"));
-                    } else {
+                if (args[0].equalsIgnoreCase("delete")) {
+                    PlaceController.delete(loc,p);
+                    check = 1;
+                }
+
+                if (args[0].equalsIgnoreCase("enabled")) {
+                    try {
+                        ConfigHelper.setEnabled(Boolean.parseBoolean(args[1]));
+                        if (args[1].equalsIgnoreCase("true")) {
+                            p.sendMessage(ChatController.error("§7Zollpforten wurden §ageöffnet"));
+                        } else if (args[1].equalsIgnoreCase("false")) {
+                            p.sendMessage(ChatController.error("§7Zollpforten wurden §cgeschlossen"));
+                        } else {
+                            p.sendMessage(ChatController.generic("§4Enabled §f[§aTrue §f/ §cfalse§f]"));
+                            p.sendMessage(ChatController.generic("§f AKTUELL -> " + ChatController.enabled()));
+                        }
+                    } catch (ArrayIndexOutOfBoundsException e) {
                         p.sendMessage(ChatController.generic("§4Enabled §f[§aTrue §f/ §cfalse§f]"));
-                        p.sendMessage(ChatController.generic("§f AKTUELL -> " + ChatController.enabled()));
+                        p.sendMessage(ChatController.generic("§fAKTUELL -> " + ChatController.enabled()));
                     }
-                } catch (ArrayIndexOutOfBoundsException e) {
-                    p.sendMessage(ChatController.generic("§4Enabled §f[§aTrue §f/ §cfalse§f]"));
-                    p.sendMessage(ChatController.generic("§fAKTUELL -> " + ChatController.enabled()));
+
+                    check = 1;
                 }
 
-                check = 1;
-            }
+                if (check == 0) {
+                    p.sendMessage(ChatController.error("Dieser Subcommand existiert nicht"));
+                }
 
-            if (check == 0) {
-                p.sendMessage(ChatController.error("Dieser Subcommand existiert nicht"));
+            } catch (ArrayIndexOutOfBoundsException e){
+                p.sendMessage(help);
+            } catch (ClassCastException e) {
+                System.out.println("Nicht in der Konsole ausführbar");
             }
-
-        } catch (ArrayIndexOutOfBoundsException e){
-            p.sendMessage(help);
-        } catch (ClassCastException e) {
-            System.out.println("Nicht in der Konsole ausführbar");
+        } else {
+            p.sendMessage(ChatController.error("Dieser Command kann nur von einem Server Operator Ausgeführt werden"));
         }
-
         return false;
     }
 }

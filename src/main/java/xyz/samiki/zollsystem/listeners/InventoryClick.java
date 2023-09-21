@@ -35,19 +35,17 @@ public class InventoryClick implements Listener {
 
                     if (balance > price || balance == price) {
                         if (owner != null && ZollSystem.getEconomy().hasAccount(owner)) {
-
-                            Player ownerPlayer = Bukkit.getServer().getPlayer(owner);
-
-                            p.playSound(p, Sound.BLOCK_NOTE_BLOCK_HARP, 21 , 1);
                             ZollSystem.getEconomy().withdrawPlayer(p, price);
                             p.sendMessage(ChatController.generic("Dir wurden §c$" + price + " §7Zoll Berechnet"));
 
-                            ZollSystem.getEconomy().depositPlayer(owner,price);
+                            ZollSystem.getEconomy().depositPlayer(owner, price);
 
+                            Player ownerPlayer = Bukkit.getServer().getPlayer(owner);
                             if (ownerPlayer != null) {
                                 ownerPlayer.sendMessage(ChatController.generic("+ §c$" + price + " §7Zoll"));
                             }
 
+                            p.playSound(p, Sound.BLOCK_NOTE_BLOCK_HARP, 21 , 1);
                             ConfigHelper.setBusy(loc, true);
                             PlaceController.open(p);
 
