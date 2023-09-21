@@ -55,7 +55,7 @@ public class InventoryClick implements Listener {
                                 ConfigHelper.setBusy(loc, false);
                                 ConfigHelper.setStatus(loc, p, false);
 
-                            },100);
+                            },60);
                         } else {
                             p.sendMessage(ChatController.error("§4FEHLER: §cDiese Pforte hat einen ungültigen Owner! Bitte kontaktiere den Developer §f- §bsaku §f/ §bsakubami§f - §cper Ticket im Discord mit einem Screenshot dieser Nachricht und deinen Coordinaten"));
                         }
