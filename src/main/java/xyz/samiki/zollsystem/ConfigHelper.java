@@ -2,17 +2,21 @@ package xyz.samiki.zollsystem;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import xyz.samiki.zollsystem.controllers.ChatController;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.util.*;
 
 public class ConfigHelper {
+    private static final Set<OfflinePlayer> players = new HashSet<>();
     private static final String path1 = "plugins/Zollsystem/Zollstationen.yml";
     private static final String path2 = "plugins/Zollsystem/Zollsystem.yml";
+    private static final String path3 = "plugins/Zollsystem/Spieler.yml";
 
     public static void addLocation(Location loc, Player p, double price, String owner) {
         FileConfiguration config = YamlConfiguration.loadConfiguration(new File(path1));
@@ -33,6 +37,28 @@ public class ConfigHelper {
                 return;
             }
         }
+    }
+
+    public static void initiatePlayers() {
+        FileConfiguration config = YamlConfiguration.loadConfiguration(new File(path3));
+
+        players.addAll(Arrays.asList(Bukkit.getServer().getOfflinePlayers()));
+        players.addAll(Bukkit.getServer().getOnlinePlayers());
+
+        int i = 0;
+        for(OfflinePlayer player : players) {
+            if(!config.contains("players."+i)) {
+
+                config.set("players."+i+".id", player.getUniqueId().toString().replace("!!java.util.UUID",""));
+                config.set("players."+i+".status", false);
+            }
+            i++;
+        }
+
+        try {
+            config.save(new File(path3));
+        } catch (Exception ignored) {}
+
     }
 
     public static void deleteLoc(Location loc, Player p) {
@@ -70,6 +96,27 @@ public class ConfigHelper {
                     return;
                 }
             }
+        }
+    }
+
+    public static void setPlayerStatus(Player p, boolean status) {
+        FileConfiguration config = YamlConfiguration.loadConfiguration(new File(path3));
+        int i = 0;
+        for(String list : loadPlayers()) {
+            String[] str = list.split("%");
+            if (str[0].contains(p.getUniqueId().toString())) {
+                if (status) {
+                    config.set("players."+i+".status", true);
+                } else {
+                    config.set("players."+i+".status", false);
+                }
+
+                try {
+                    config.save(new File(path3));
+                } catch (Exception ignored) {}
+                return;
+            }
+            i++;
         }
     }
 
@@ -122,19 +169,45 @@ public class ConfigHelper {
         }
     }
 
-    public static String loadEnabled() {
+    public static ArrayList<String> loadPlayers() {
+        ArrayList<String> list = new ArrayList<>();
+        FileConfiguration config = YamlConfiguration.loadConfiguration(new File(path3));
+
+        for (int i = 0; true; i++) {
+
+            if (!config.contains("players."+i)) return list;
+
+            String name = config.getString("players."+i+".id");
+            String status = config.getString("players."+i+".status");
+
+            String line = name+"%"+status;
+            list.add(line);
+        }
+    }
+
+    public static boolean loadEnabled() {
         FileConfiguration config = YamlConfiguration.loadConfiguration(new File(path2));
-        return config.getString("enabled");
+        return Boolean.parseBoolean(config.getString("enabled"));
     }
 
     public static boolean isEnabled() {
-        return Boolean.parseBoolean(String.valueOf(loadEnabled()));
+        return loadEnabled();
     }
 
     public static boolean checkLocations(Location loc, Player p) {
         for(String list : loadLocations()) {
             String[] str = list.split("%");
             if (str[1].equalsIgnoreCase(fixLocation(loc,p))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean checkCLick(Location loc) {
+        for(String list : loadLocations()) {
+            String[] str = list.split("%");
+            if (str[1].equalsIgnoreCase(convertLocation(loc))) {
                 return true;
             }
         }
@@ -149,6 +222,16 @@ public class ConfigHelper {
             }
         }
         return 0;
+    }
+
+    public static boolean checkPlayer(Player p) {
+        for(String list : loadPlayers()) {
+            String[] str = list.split("%");
+            if (str[0].contains(p.getUniqueId().toString())) {
+                return Boolean.parseBoolean(str[1]);
+            }
+        }
+        return true;
     }
 
     public static String getOwner(Location loc) {
@@ -234,6 +317,13 @@ public class ConfigHelper {
         if (p.getFacing().equals(BlockFace.WEST)) {
             x--;
         }
+        return x+"/"+y+"/"+z+"/"+loc.getWorld().getName();
+    }
+
+    public static String convertLocation(Location loc) {
+        int x = loc.getBlockX();
+        int y = loc.getBlockY();
+        int z = loc.getBlockZ();
         return x+"/"+y+"/"+z+"/"+loc.getWorld().getName();
     }
 }

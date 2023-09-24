@@ -15,6 +15,8 @@ import xyz.samiki.zollsystem.ZollSystem;
 import xyz.samiki.zollsystem.controllers.ChatController;
 import xyz.samiki.zollsystem.controllers.PlaceController;
 
+import java.util.Timer;
+
 public class InventoryClick implements Listener {
     private int check = 0;
 
@@ -54,6 +56,7 @@ public class InventoryClick implements Listener {
                                 PlaceController.close(p);
                                 ConfigHelper.setBusy(loc, false);
                                 ConfigHelper.setStatus(loc, p, false);
+                                ConfigHelper.setPlayerStatus(p, false);
 
                             },60);
                         } else {
@@ -90,6 +93,9 @@ public class InventoryClick implements Listener {
             Location loc = ConfigHelper.getLocByStatus(p);
             if (ConfigHelper.checkBusy(loc)) {
                 ConfigHelper.setStatus(loc, p, false);
+                Bukkit.getScheduler().runTaskLater(ZollSystem.getPlugin(), bukkitTask -> {
+                    ConfigHelper.setPlayerStatus(p, false);
+                },60);
             }
         }
     }

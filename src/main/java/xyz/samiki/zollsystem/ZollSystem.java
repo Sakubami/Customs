@@ -9,12 +9,15 @@ import xyz.samiki.zollsystem.commands.ZollCommand;
 import xyz.samiki.zollsystem.listeners.Interact;
 import xyz.samiki.zollsystem.listeners.InventoryClick;
 
+import java.util.Arrays;
+
 public class ZollSystem extends JavaPlugin {
     private static Economy econ = null;
     private static ZollSystem plugin;
 
     public void onEnable(){
         plugin = this;
+        ConfigHelper.initiatePlayers();
 
         PluginManager pm = Bukkit.getPluginManager();
         pm.registerEvents( new Interact(), this);

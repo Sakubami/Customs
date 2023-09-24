@@ -21,27 +21,19 @@ public class Interact implements Listener {
         if (e.getHand().equals(EquipmentSlot.HAND) && e.getClickedBlock() != null) {
             Location loc = e.getClickedBlock().getLocation();
             Material mat = e.getClickedBlock().getType();
-
-            if (mat.equals(Material.TARGET)) {
-                if ((e.getAction().equals(Action.RIGHT_CLICK_BLOCK))) {
-                    for(int i = 0; i < ConfigHelper.loadLocations().size(); i++) {
-                        if (loc.equals(ConfigHelper.getLoc(String.valueOf(i)))) {
-                            if (ConfigHelper.isEnabled()) {
-                                if (ConfigHelper.checkBusy(loc)) {
-                                    if (ConfigHelper.checkStatus(loc)) {
-                                        ConfigHelper.setStatus(loc, p, true);
-                                        p.openInventory(Inventorys.getConfirmation(ConfigHelper.getPrice(loc)));
-                                    }
-                                } else {
-                                    p.sendMessage(ChatController.error("Dieses Tor ist bereits offen"));
-                                }
-                                break;
-                            } else {
-                                p.sendMessage(ChatController.error("§4Diese Pforte wurde vorrübergehend geschlossen!"));
+            if (mat.equals(Material.TARGET) && e.getAction().equals(Action.RIGHT_CLICK_BLOCK) && ConfigHelper.checkCLick(loc)) {
+                if (ConfigHelper.isEnabled()) {
+                    if (ConfigHelper.checkBusy(loc)) {
+                        if (!ConfigHelper.checkPlayer(p)) {
+                            if (ConfigHelper.checkStatus(loc)) {
+                                e.setCancelled(true);
+                                ConfigHelper.setStatus(loc, p, true);
+                                p.openInventory(Inventorys.getConfirmation(ConfigHelper.getPrice(loc)));
+                                ConfigHelper.setPlayerStatus(p, true);
                             }
-                        }
-                    }
-                }
+                        } else { p.sendMessage(ChatController.error("Bitte warte einen Moment")); }
+                    } else { p.sendMessage(ChatController.error("Dieses Tor ist bereits offen")); }
+                } else { p.sendMessage(ChatController.error("§4Diese Pforte wurde vorrübergehend geschlossen!")); }
             }
         }
     }
