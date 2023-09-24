@@ -30,10 +30,10 @@ public class Interact implements Listener {
                                 ConfigHelper.setStatus(loc, p, true);
                                 p.openInventory(Inventorys.getConfirmation(ConfigHelper.getPrice(loc)));
                                 ConfigHelper.setPlayerStatus(p, true);
-                            }
-                        } else { p.sendMessage(ChatController.error("Bitte warte einen Moment")); }
-                    } else { p.sendMessage(ChatController.error("Dieses Tor ist bereits offen")); }
-                } else { p.sendMessage(ChatController.error("§4Diese Pforte wurde vorrübergehend geschlossen!")); }
+                            } else p.sendMessage(ChatController.error("Jemand benutzt dieses Tor bereits"));
+                        } else  p.sendMessage(ChatController.error("Bitte warte einen Moment"));
+                    } else  p.sendMessage(ChatController.error("Dieses Tor ist bereits offen"));
+                } else  p.sendMessage(ChatController.error("§4Diese Pforte wurde vorrübergehend geschlossen!"));
             }
         }
     }
