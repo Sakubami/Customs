@@ -8,9 +8,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import xyz.samiki.zollsystem.ConfigHelper;
 import xyz.samiki.zollsystem.Inventorys.Inventorys;
 import xyz.samiki.zollsystem.controllers.ChatController;
+
+import java.util.Objects;
 
 public class Interact implements Listener {
 
@@ -18,7 +21,7 @@ public class Interact implements Listener {
     public void onInteract(PlayerInteractEvent e) {
         Player p = e.getPlayer();
 
-        if (e.getHand().equals(EquipmentSlot.HAND) && e.getClickedBlock() != null) {
+        if (Objects.equals(e.getHand(), EquipmentSlot.HAND) && e.getClickedBlock() != null) {
             Location loc = e.getClickedBlock().getLocation();
             Material mat = e.getClickedBlock().getType();
             if (mat.equals(Material.TARGET) && e.getAction().equals(Action.RIGHT_CLICK_BLOCK) && ConfigHelper.checkCLick(loc)) {
