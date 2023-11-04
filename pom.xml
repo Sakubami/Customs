@@ -6,7 +6,7 @@
 
     <groupId>xyz.samiki</groupId>
     <artifactId>Zollsystem</artifactId>
-    <version>1.2.5</version>
+    <version>2.0.0</version>
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
@@ -50,6 +50,12 @@
             <artifactId>VaultAPI</artifactId>
             <version>1.7</version>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.Sakubami</groupId>
+            <artifactId>Coresystem</artifactId>
+            <version>v1.1.1</version>
         </dependency>
     </dependencies>
 </project>

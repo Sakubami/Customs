@@ -1,9 +1,14 @@
 package xyz.samiki.zollsystem.listeners;
 
+import net.haraxx.coresystem.builder.Chat;
+import net.haraxx.coresystem.builder.ItemBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.block.Barrel;
+import org.bukkit.block.Block;
+import org.bukkit.block.Chest;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -15,6 +20,7 @@ import xyz.samiki.zollsystem.ZollSystem;
 import xyz.samiki.zollsystem.controllers.ChatController;
 import xyz.samiki.zollsystem.controllers.PlaceController;
 
+import java.util.Arrays;
 import java.util.Timer;
 
 public class InventoryClick implements Listener {
@@ -31,39 +37,38 @@ public class InventoryClick implements Listener {
             if (item != null) {
                 if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§aJa")) {
                     Location loc = ConfigHelper.getLocByStatus(p);
-                    double price = ConfigHelper.getPrice(loc);
-                    double balance = ZollSystem.getEconomy().getBalance(p);
-                    String owner = ConfigHelper.getOwner(loc);
-
-                    if (balance > price || balance == price) {
-                        if (owner != null && ZollSystem.getEconomy().hasAccount(owner)) {
-                            ZollSystem.getEconomy().withdrawPlayer(p, price);
-                            p.sendMessage(ChatController.generic("Dir wurden §c$" + price + " §7Zoll Berechnet"));
-
-                            ZollSystem.getEconomy().depositPlayer(owner, price);
-
-                            Player ownerPlayer = Bukkit.getServer().getPlayer(owner);
-                            if (ownerPlayer != null) {
-                                ownerPlayer.sendMessage(ChatController.generic("+ §c$" + price + " §7Zoll"));
+                    if (p.getInventory().contains(Material.GOLD_BLOCK)) {
+                        for (int i = 0; i < p.getInventory().getSize(); i++) {
+                            ItemStack invitem = p.getInventory().getItem(i);
+                            if (invitem != null && invitem.getType().equals(Material.GOLD_BLOCK)) {
+                                p.getInventory().removeItem(new ItemStack(Material.GOLD_BLOCK, 1));
+                                break;
                             }
-
-                            p.playSound(p, Sound.BLOCK_NOTE_BLOCK_HARP, 21 , 1);
-                            ConfigHelper.setBusy(loc, true);
-                            PlaceController.open(p);
-
-                            Bukkit.getScheduler().runTaskLater(ZollSystem.getPlugin(), bukkitTask -> {
-
-                                PlaceController.close(p);
-                                ConfigHelper.setBusy(loc, false);
-                                ConfigHelper.setStatus(loc, p, false);
-                                ConfigHelper.setPlayerStatus(p, false);
-
-                            },60);
-                        } else {
-                            p.sendMessage(ChatController.error("§4FEHLER: §cDiese Pforte hat einen ungültigen Owner! Bitte kontaktiere den Developer §f- §bsaku §f/ §bsakubami§f - §cper Ticket im Discord mit einem Screenshot dieser Nachricht und deinen Coordinaten"));
                         }
+                        p.playSound(p, Sound.BLOCK_NOTE_BLOCK_HARP, 21 , 1);
+                        ConfigHelper.setBusy(loc, true);
+                        PlaceController.open(p);
+
+                        Location newloc = new Location(loc.getWorld(), loc.getBlockX(), loc.getBlockY() -1, loc.getBlockZ());
+
+                        if (p.getWorld().getBlockAt(newloc).getType().equals(Material.BARREL)) {
+                            p.sendMessage("abc");
+                            Barrel chest = (Barrel) e.getWhoClicked().getWorld().getBlockAt(newloc).getState();
+                            if (chest.getInventory().getItem(26) == null) {
+                                chest.getInventory().addItem(new ItemBuilder(Material.GOLD_BLOCK).build());
+                                p.sendMessage("adding");
+                            }
+                        }
+
+                        Bukkit.getScheduler().runTaskLater(ZollSystem.getPlugin(), bukkitTask -> {
+
+                            PlaceController.close(p);
+                            ConfigHelper.setBusy(loc, false);
+                            ConfigHelper.setStatus(loc, p, false);
+                            ConfigHelper.setPlayerStatus(p, false);
+                        },60);
                     } else {
-                        p.sendMessage(ChatController.error("Du hast nicht genügend Geld"));
+                        p.sendMessage(Chat.format("du hast nicht genügend Gold"));
                     }
 
                     e.getView().close();

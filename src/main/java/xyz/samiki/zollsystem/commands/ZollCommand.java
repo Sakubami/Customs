@@ -1,5 +1,6 @@
 package xyz.samiki.zollsystem.commands;
 
+import net.haraxx.coresystem.builder.Chat;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -48,18 +49,18 @@ public class ZollCommand implements CommandExecutor {
                             p.sendMessage(ChatController.generic("§f> §b" + parts[0] + "§f . §b" + parts[1] + "§f . §b" + parts[2] + "§f <"));
                         }
                     }
+                    if (ConfigHelper.loadLocations().isEmpty()) {
+                        p.sendMessage("§cNoch keine Stationen vorhanden");
+                    }
                     p.sendMessage("§8==============================");
                     check = 1;
                 }
 
                 if (args[0].equalsIgnoreCase("create")) {
                     try {
-                        PlaceController.create(loc, p , Double.parseDouble(args[2]), args[1]);
+                        PlaceController.create(loc, p);
                     } catch (ArrayIndexOutOfBoundsException e) {
-                        p.sendMessage(ChatController.generic("§4Create §f[§7OWNER§f] §f[§7Preis§f]"));
-                        p.sendMessage(ChatController.error("§4WICHTIG: §cBitte auf groß und Kleinschreibung achten!"));
-                    } catch (NumberFormatException e) {
-                        p.sendMessage(ChatController.error("Bitte einen Preis eingeben"));
+                        p.sendMessage(Chat.format("Create"));
                     }
 
                     check = 1;

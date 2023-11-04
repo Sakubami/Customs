@@ -12,7 +12,7 @@ import static xyz.samiki.zollsystem.ConfigHelper.fixLocation;
 
 public class PlaceController {
 
-    public static void create(Location loc, Player p, double price, String owner) {
+    public static void create(Location loc, Player p) {
 
         BlockFace f = p.getFacing();
         World wrld = loc.getWorld();
@@ -21,10 +21,10 @@ public class PlaceController {
         int z = loc.getBlockZ();
 
         if (!ConfigHelper.checkLocations(loc, p)) {
-            ConfigHelper.addLocation(loc, p, price, owner);
+            ConfigHelper.addLocation(loc, p);
 
             if (f == BlockFace.NORTH) {
-                wrld.getBlockAt(x,y,z-1).setType(Material.QUARTZ_BRICKS);
+                wrld.getBlockAt(x,y,z-1).setType(Material.BARREL);
                 wrld.getBlockAt(x,y+1,z-1).setType(Material.TARGET);
 
                 wrld.getBlockAt(x+1,y-1,z-1).setType(Material.SMOOTH_QUARTZ);
@@ -37,7 +37,7 @@ public class PlaceController {
             }
 
             if (f == BlockFace.EAST) {
-                wrld.getBlockAt(x+1,y,z).setType(Material.QUARTZ_BRICKS);
+                wrld.getBlockAt(x+1,y,z).setType(Material.BARREL);
                 wrld.getBlockAt(x+1,y+1,z).setType(Material.TARGET);
 
                 wrld.getBlockAt(x+1,y-1,z+1).setType(Material.SMOOTH_QUARTZ);
@@ -50,7 +50,7 @@ public class PlaceController {
             }
 
             if (f == BlockFace.SOUTH) {
-                wrld.getBlockAt(x,y,z+1).setType(Material.QUARTZ_BRICKS);
+                wrld.getBlockAt(x,y,z+1).setType(Material.BARREL);
                 wrld.getBlockAt(x,y+1,z+1).setType(Material.TARGET);
 
                 wrld.getBlockAt(x-1,y-1,z+1).setType(Material.SMOOTH_QUARTZ);
@@ -63,7 +63,7 @@ public class PlaceController {
             }
 
             if (f == BlockFace.WEST) {
-                wrld.getBlockAt(x-1,y,z).setType(Material.QUARTZ_BRICKS);
+                wrld.getBlockAt(x-1,y,z).setType(Material.BARREL);
                 wrld.getBlockAt(x-1,y+1,z).setType(Material.TARGET);
 
                 wrld.getBlockAt(x-1,y-1,z-1).setType(Material.SMOOTH_QUARTZ);
