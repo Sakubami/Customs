@@ -1,14 +1,11 @@
 package xyz.samiki.zollsystem.listeners;
 
 import net.haraxx.coresystem.builder.Chat;
-import net.haraxx.coresystem.builder.ItemBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Barrel;
-import org.bukkit.block.Block;
-import org.bukkit.block.Chest;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -17,11 +14,7 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.ItemStack;
 import xyz.samiki.zollsystem.ConfigHelper;
 import xyz.samiki.zollsystem.ZollSystem;
-import xyz.samiki.zollsystem.controllers.ChatController;
 import xyz.samiki.zollsystem.controllers.PlaceController;
-
-import java.util.Arrays;
-import java.util.Timer;
 
 public class InventoryClick implements Listener {
     private int check = 0;
@@ -52,11 +45,9 @@ public class InventoryClick implements Listener {
                         Location newloc = new Location(loc.getWorld(), loc.getBlockX(), loc.getBlockY() -1, loc.getBlockZ());
 
                         if (p.getWorld().getBlockAt(newloc).getType().equals(Material.BARREL)) {
-                            p.sendMessage("abc");
                             Barrel chest = (Barrel) e.getWhoClicked().getWorld().getBlockAt(newloc).getState();
                             if (chest.getInventory().getItem(26) == null) {
-                                chest.getInventory().addItem(new ItemBuilder(Material.GOLD_BLOCK).build());
-                                p.sendMessage("adding");
+                                chest.getInventory().addItem(new ItemStack(Material.GOLD_BLOCK));
                             }
                         }
 

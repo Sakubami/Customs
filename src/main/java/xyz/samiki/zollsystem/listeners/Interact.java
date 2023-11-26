@@ -9,10 +9,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
-import org.checkerframework.checker.nullness.qual.NonNull;
 import xyz.samiki.zollsystem.ConfigHelper;
 import xyz.samiki.zollsystem.Inventorys.Inventorys;
-import xyz.samiki.zollsystem.controllers.ChatController;
 
 import java.util.Objects;
 

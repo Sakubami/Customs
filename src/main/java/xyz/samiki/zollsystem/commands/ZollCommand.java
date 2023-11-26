@@ -10,8 +10,6 @@ import xyz.samiki.zollsystem.ConfigHelper;
 import xyz.samiki.zollsystem.controllers.ChatController;
 import xyz.samiki.zollsystem.controllers.PlaceController;
 
-import java.text.DecimalFormat;
-
 public class ZollCommand implements CommandExecutor {
 
     @Override

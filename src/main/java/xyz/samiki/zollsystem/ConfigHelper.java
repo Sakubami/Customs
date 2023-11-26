@@ -7,7 +7,6 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import xyz.samiki.zollsystem.controllers.ChatController;
 
 import java.io.File;
 import java.util.*;

@@ -1,8 +1,10 @@
 name: Zollsystem
 author: sakubami
 main: xyz.samiki.zollsystem.ZollSystem
-version: 2.0.0
+version: 2.0.4
 api-version: 1.18
+depend:
+  - HaraxxCore
 
 commands:
   zoll:
